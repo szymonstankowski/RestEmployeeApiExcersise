@@ -1,6 +1,7 @@
 package pl.szymonstankowski.RestApiExcersise.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,13 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees(){
-        return employeeService.getEmployees();
+    public CollectionModel<EntityModel<Employee>> getEmployees(){
+        List<EntityModel<Employee>> employees = employeeService.getEmployees().stream()
+                .map(employee -> EntityModel.of(employee))
+                .toList();
+        return CollectionModel.of(employees,
+                linkTo(methodOn(EmployeeController.class).getEmployees()).withSelfRel()
+                );
     }
 
     @GetMapping("/employees/{id}")
