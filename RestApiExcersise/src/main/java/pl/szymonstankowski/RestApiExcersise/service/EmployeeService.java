@@ -5,6 +5,7 @@ import pl.szymonstankowski.RestApiExcersise.model.Employee;
 import pl.szymonstankowski.RestApiExcersise.repository.EmployeeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -28,5 +29,9 @@ public class EmployeeService {
 
     public void deleteEmplpyee(Long id) {
         employeeRepository.deleteById(id);
+    }
+
+    public void deactivateEmployee(Long id) {
+        employeeRepository.deactivateEmployee(id);
     }
 }
